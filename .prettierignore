@@ -1,0 +1,6 @@
+**/dist/
+**/node_modules/
+.prettierrc.json
+LICENSE
+pnpm-lock.yaml
+tsconfig.json
