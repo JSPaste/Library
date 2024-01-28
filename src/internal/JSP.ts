@@ -1,21 +1,23 @@
-import { HTTP } from './HTTP.ts';
-import type { JSPOptions } from './interfaces/JSPOptions.ts';
-import { defaultJSPOptions } from './utils/constants.ts';
-import type { AccessResponse } from './interfaces/AccessResponse.ts';
+import { Client } from './classes/Client';
+import { Document } from './classes/Document';
+import { ClientDocument } from './classes/ClientDocument';
+import type { JSPClientOptions } from './interfaces/request/JSPClientOptions';
+import type { PublishOptions } from './interfaces/request/PublishOptions';
 
 export class JSP {
-	private http: HTTP;
-	private readonly options: JSPOptions;
-	private readonly endpoint: string;
+	private readonly client: Client;
 
-	public constructor(options: Partial<JSPOptions> = {}) {
-		this.options = { ...defaultJSPOptions, ...options };
-		this.endpoint = this.options.api + '/v' + this.options.version;
-
-		this.http = new HTTP(this.options.http);
+	public constructor(clientOptions: Partial<JSPClientOptions> = {}) {
+		this.client = new Client(clientOptions);
 	}
 
-	public async access(resource: string) {
-		return (await this.http.get(this.endpoint + '/documents/' + resource)) as AccessResponse;
+	public async access(key: string) {
+		return this.client.access(key).then((doc) => new Document(this.client, doc));
+	}
+
+	public async publish(data: any, options?: PublishOptions) {
+		return this.client
+			.publish(data, options)
+			.then((doc) => new ClientDocument(this.client, doc));
 	}
 }
