@@ -17,7 +17,7 @@
 		"strict": true,
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
-		"exactOptionalPropertyTypes": true,
+		"exactOptionalPropertyTypes": false,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
 		"noFallthroughCasesInSwitch": true,

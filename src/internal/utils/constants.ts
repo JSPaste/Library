@@ -1,10 +1,15 @@
 import * as pkg from '../../../package.json';
-import type { JSPOptions } from '../interfaces/JSPOptions.ts';
-import type { HTTPOptions } from '../interfaces/HTTPOptions.ts';
+import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions.ts';
+import type { HTTPOptions } from '../interfaces/request/HTTPOptions.ts';
+
+export enum APIVersions {
+	v1 = 1,
+	v2 = 2
+}
 
 export const defaultHTTPOptions = {
 	headers: {
-		'User-Agent': `JSPasteHeadless/${pkg.version} (https://github.com/jspaste/jspaste)`
+		'User-Agent': `JSPasteHeadless/${pkg.version} (https://github.com/jspaste/library)`
 	},
 	retries: 3,
 	timeout: 10000
@@ -12,6 +17,6 @@ export const defaultHTTPOptions = {
 
 export const defaultJSPOptions = {
 	api: 'https://jspaste.eu/api',
-	version: 1,
+	version: APIVersions.v2,
 	http: defaultHTTPOptions
-} as const satisfies Required<JSPOptions>;
+} as const satisfies Required<JSPClientOptions>;
