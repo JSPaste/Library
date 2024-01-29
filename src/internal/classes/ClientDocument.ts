@@ -3,7 +3,7 @@ import type { Client } from './Client';
 import type { IClientDocument } from '../interfaces/response/ClientDocument';
 
 export class ClientDocument extends Document implements IClientDocument {
-	secret: string;
+	readonly secret: string;
 
 	public constructor(
 		client: Client,
@@ -14,7 +14,7 @@ export class ClientDocument extends Document implements IClientDocument {
 		this.secret = secret;
 	}
 
-	public edit(data: any) {
-		this.client.edit(this.key, { secret: this.secret, newBody: data });
+	public async edit(data: any) {
+		return this.client.edit(this.key, { secret: this.secret, newBody: data });
 	}
 }

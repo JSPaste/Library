@@ -2,7 +2,7 @@ import type { IDocument } from '../interfaces/response/Document';
 import type { Client } from './Client';
 
 export class Document implements IDocument {
-	readonly client: Client;
+	protected readonly client: Client;
 	readonly key: string;
 	readonly data: string;
 	readonly url: string;
@@ -21,7 +21,7 @@ export class Document implements IDocument {
 		this.expirationTimestamp = expirationTimestamp;
 	}
 
-	public access() {
-		this.client.access(this.key);
+	public async access() {
+		return this.client.access(this.key);
 	}
 }
