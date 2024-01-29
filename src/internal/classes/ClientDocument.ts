@@ -13,4 +13,8 @@ export class ClientDocument extends Document implements IClientDocument {
 
 		this.secret = secret;
 	}
+
+	public edit(data: any) {
+		this.client.edit(this.key, { secret: this.secret, newBody: data });
+	}
 }

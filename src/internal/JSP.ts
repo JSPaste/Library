@@ -3,6 +3,7 @@ import { Document } from './classes/Document';
 import { ClientDocument } from './classes/ClientDocument';
 import type { JSPClientOptions } from './interfaces/request/JSPClientOptions';
 import type { PublishOptions } from './interfaces/request/PublishOptions';
+import type { EditOptions } from './interfaces/request/EditOptions';
 
 export class JSP {
 	private readonly client: Client;
@@ -19,5 +20,9 @@ export class JSP {
 		return this.client
 			.publish(data, options)
 			.then((doc) => new ClientDocument(this.client, doc));
+	}
+
+	public async edit(data: any, options: EditOptions) {
+		return this.client.edit(data, options).then((doc) => new ClientDocument(this.client, doc));
 	}
 }

@@ -5,6 +5,7 @@ import type { IDocument } from '../interfaces/response/Document';
 import type { IClientDocument } from '../interfaces/response/ClientDocument';
 import type { PublishOptions } from '../interfaces/request/PublishOptions';
 import type { AccessOptions } from '../interfaces/request/AccessOptions';
+import type { EditOptions } from '../interfaces/request/EditOptions';
 
 export class Client {
 	private http: HTTP;
@@ -33,6 +34,15 @@ export class Client {
 				secret: options?.secret,
 				password: options?.password,
 				lifetime: options?.lifetime?.toString()
+			}
+		});
+	}
+
+	public async edit(key: string, options: EditOptions) {
+		return this.http.patch<IClientDocument>(this.endpoint + '/documents/' + key, {
+			body: options.newBody,
+			headers: {
+				secret: options?.secret
 			}
 		});
 	}
