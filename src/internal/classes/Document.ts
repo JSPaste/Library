@@ -69,7 +69,13 @@ export class Document implements IDocument {
 		return this.client.access(this.key).then((res) => this.refresh(res));
 	}
 
-	public async publish() {
+	public async exists() {
+		return this.client.exists(this.key).then(() => this);
+	}
+
+	public async publish(data?: any) {
+		if (data) this.data = data;
+
 		return this.client
 			.publish(this.data, {
 				key: this.key,

@@ -17,6 +17,10 @@ export class JSP {
 		return this.client.access(key).then((doc) => new Document(this.client, doc));
 	}
 
+	public async exists(key: string) {
+		return this.client.exists(key).then((exists) => exists);
+	}
+
 	public async publish(data: any, options?: PublishOptions) {
 		return this.client
 			.publish(data, options)
@@ -24,10 +28,10 @@ export class JSP {
 	}
 
 	public async edit(data: any, options: EditOptions) {
-		return this.client.edit(data, options).then((doc) => new ClientDocument(this.client, doc));
+		return this.client.edit(data, options).then(({ edited }) => edited);
 	}
 
 	public async remove(key: string, options: RemoveOptions) {
-		return this.client.remove(key, options).then(({ deleted }) => deleted);
+		return this.client.remove(key, options).then(({ removed }) => removed);
 	}
 }

@@ -10,7 +10,7 @@ export class HTTP {
 		this.options = options;
 	}
 
-	public async get<TResponse>(endpoint: string, options: OverrideRequestOptions) {
+	public async get<TResponse>(endpoint: string, options?: OverrideRequestOptions) {
 		const requestOptions = {
 			...options,
 			endpoint,
@@ -20,7 +20,7 @@ export class HTTP {
 		return this.request<TResponse>(requestOptions);
 	}
 
-	public async delete<TResponse>(endpoint: string, options: OverrideRequestOptions) {
+	public async delete<TResponse>(endpoint: string, options?: OverrideRequestOptions) {
 		const requestOptions = {
 			...options,
 			endpoint,
@@ -30,7 +30,7 @@ export class HTTP {
 		return this.request<TResponse>(requestOptions);
 	}
 
-	public async post<TResponse>(endpoint: string, options: OverrideRequestOptions) {
+	public async post<TResponse>(endpoint: string, options?: OverrideRequestOptions) {
 		const requestOptions = {
 			...options,
 			endpoint,
@@ -40,7 +40,7 @@ export class HTTP {
 		return this.request<TResponse>(requestOptions);
 	}
 
-	public async put<TResponse>(endpoint: string, options: OverrideRequestOptions) {
+	public async put<TResponse>(endpoint: string, options?: OverrideRequestOptions) {
 		const requestOptions = {
 			...options,
 			endpoint,
@@ -50,7 +50,7 @@ export class HTTP {
 		return this.request<TResponse>(requestOptions);
 	}
 
-	public async patch<TResponse>(endpoint: string, options: OverrideRequestOptions) {
+	public async patch<TResponse>(endpoint: string, options?: OverrideRequestOptions) {
 		const requestOptions = {
 			...options,
 			endpoint,

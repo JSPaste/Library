@@ -28,10 +28,15 @@ export class Client {
 		});
 	}
 
+	public async exists(key: string) {
+		return this.http.get<boolean>(this.endpoint + '/documents/' + key + '/exists');
+	}
+
 	public async publish(data: any, options?: PublishOptions) {
 		return this.http.post<IClientDocument>(this.endpoint + '/documents', {
 			body: data,
 			headers: {
+				key: options?.key,
 				secret: options?.secret,
 				password: options?.password,
 				lifetime: options?.lifetime?.toString()
@@ -40,7 +45,7 @@ export class Client {
 	}
 
 	public async edit(key: string, options: EditOptions) {
-		return this.http.patch<IClientDocument>(this.endpoint + '/documents/' + key, {
+		return this.http.patch<{ edited: boolean }>(this.endpoint + '/documents/' + key, {
 			body: options.newBody,
 			headers: {
 				secret: options?.secret
@@ -49,7 +54,7 @@ export class Client {
 	}
 
 	public async remove(key: string, options: RemoveOptions) {
-		return this.http.delete<{ deleted: boolean }>(this.endpoint + '/documents/' + key, {
+		return this.http.delete<{ removed: boolean }>(this.endpoint + '/documents/' + key, {
 			headers: {
 				secret: options?.secret
 			}

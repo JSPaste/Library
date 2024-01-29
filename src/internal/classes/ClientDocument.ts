@@ -4,16 +4,18 @@ import type { IClientDocument } from '../interfaces/response/ClientDocument';
 
 export class ClientDocument extends Document implements IClientDocument {
 	public override secret: string;
-	public deleted: boolean;
+	public edited?: boolean;
+	public removed?: boolean;
 
 	public constructor(
 		client: Client,
-		{ key, secret, data, url, password, expirationTimestamp, deleted }: IClientDocument
+		{ key, secret, data, url, password, expirationTimestamp, edited, removed }: IClientDocument
 	) {
 		super(client, { key, data, url, password, expirationTimestamp, secret });
 
 		this.secret = secret;
-		this.deleted = deleted;
+		this.edited = edited;
+		this.removed = removed;
 	}
 
 	protected override refresh({
@@ -23,7 +25,8 @@ export class ClientDocument extends Document implements IClientDocument {
 		password,
 		expirationTimestamp,
 		secret,
-		deleted
+		edited,
+		removed
 	}: IClientDocument) {
 		this.key = key;
 		this.data = data;
@@ -31,21 +34,23 @@ export class ClientDocument extends Document implements IClientDocument {
 		this.password = password;
 		this.expirationTimestamp = expirationTimestamp;
 		this.secret = secret;
-
-		this.deleted = deleted;
+		this.edited = edited;
+		this.removed = removed;
 
 		return this;
 	}
 
 	public async edit(data?: any) {
+		if (data) this.data = data;
+
 		return this.client
 			.edit(this.key, { secret: this.secret, newBody: data || this.data })
-			.then((res) => this.refresh(res));
+			.then(({ edited }) => this.refresh({ ...this, edited }));
 	}
 
 	public async remove() {
 		return this.client
 			.remove(this.key, { secret: this.secret })
-			.then(({ deleted }) => this.refresh({ ...this, deleted }));
+			.then(({ removed }) => this.refresh({ ...this, removed }));
 	}
 }
