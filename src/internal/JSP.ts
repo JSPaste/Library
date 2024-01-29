@@ -17,14 +17,14 @@ export class JSP {
 		return this.client.access(key).then((doc) => new Document(this.client, doc));
 	}
 
-	public async exists(key: string) {
-		return this.client.exists(key).then((exists) => exists);
-	}
-
 	public async publish(data: any, options?: PublishOptions) {
 		return this.client
 			.publish(data, options)
-			.then((doc) => new ClientDocument(this.client, doc));
+			.then((doc) => new ClientDocument(this.client, { ...doc, data }));
+	}
+
+	public async exists(key: string) {
+		return this.client.exists(key).then((exists) => exists);
 	}
 
 	public async edit(data: any, options: EditOptions) {

@@ -5,7 +5,7 @@ export class Document implements IDocument {
 	protected readonly client: Client;
 	public key: string;
 	public data: string;
-	public url: string;
+	public url?: string;
 	public password?: string;
 	public lifetime?: number;
 	public expirationTimestamp?: number;
