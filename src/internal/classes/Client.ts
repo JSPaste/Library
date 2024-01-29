@@ -1,12 +1,12 @@
 import { HTTP } from './HTTP';
 import { defaultJSPOptions } from '../utils/constants';
 import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions';
-import type { IDocument } from '../interfaces/response/Document';
-import type { IClientDocument } from '../interfaces/response/ClientDocument';
 import type { PublishOptions } from '../interfaces/request/document/PublishOptions';
 import type { AccessOptions } from '../interfaces/request/document/AccessOptions';
 import type { EditOptions } from '../interfaces/request/document/EditOptions';
 import type { RemoveOptions } from '../interfaces/request/document/RemoveOptions';
+import type { AccessedDocument } from '../interfaces/response/AccessedDocument';
+import type { PublishedDocument } from '../interfaces/response/PublishedDocument';
 
 export class Client {
 	private http: HTTP;
@@ -21,19 +21,15 @@ export class Client {
 	}
 
 	public async access(key: string, options?: AccessOptions) {
-		return this.http.get<IDocument>(this.endpoint + '/documents/' + key, {
+		return this.http.get<AccessedDocument>(this.endpoint + '/documents/' + key, {
 			headers: {
 				password: options?.password
 			}
 		});
 	}
 
-	public async exists(key: string) {
-		return this.http.get<boolean>(this.endpoint + '/documents/' + key + '/exists');
-	}
-
 	public async publish(data: any, options?: PublishOptions) {
-		return this.http.post<IClientDocument>(this.endpoint + '/documents', {
+		return this.http.post<PublishedDocument>(this.endpoint + '/documents', {
 			body: data,
 			headers: {
 				key: options?.key,
@@ -42,6 +38,10 @@ export class Client {
 				lifetime: options?.lifetime?.toString()
 			}
 		});
+	}
+
+	public async exists(key: string) {
+		return this.http.get<boolean>(this.endpoint + '/documents/' + key + '/exists');
 	}
 
 	public async edit(key: string, options: EditOptions) {

@@ -1,4 +1,4 @@
-import type { IDocument } from '../interfaces/response/Document';
+import type { IDocument } from '../interfaces/response/IDocument';
 import type { Client } from './Client';
 
 export class Document implements IDocument {
@@ -33,14 +33,15 @@ export class Document implements IDocument {
 		lifetime,
 		expirationTimestamp,
 		secret
-	}: IDocument) {
-		this.key = key;
-		this.data = data;
-		this.url = url;
-		this.password = password;
-		this.lifetime = lifetime;
-		this.expirationTimestamp = expirationTimestamp;
-		this.secret = secret;
+	}: Partial<IDocument>) {
+		if (key) this.key = key;
+		if (data) this.data = data;
+		if (url) this.url = url;
+		if (password) this.password = password;
+		if (lifetime || lifetime === 0) this.lifetime = lifetime;
+		if (expirationTimestamp || expirationTimestamp === 0)
+			this.expirationTimestamp = expirationTimestamp;
+		if (secret) this.secret = secret;
 
 		return this;
 	}
@@ -69,10 +70,6 @@ export class Document implements IDocument {
 		return this.client.access(this.key).then((res) => this.refresh(res));
 	}
 
-	public async exists() {
-		return this.client.exists(this.key).then(() => this);
-	}
-
 	public async publish(data?: any) {
 		if (data) this.data = data;
 
@@ -87,5 +84,9 @@ export class Document implements IDocument {
 				secret: this.secret
 			})
 			.then((res) => this.refresh(res));
+	}
+
+	public async exists() {
+		return this.client.exists(this.key).then(() => this);
 	}
 }
