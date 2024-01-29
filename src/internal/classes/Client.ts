@@ -3,9 +3,10 @@ import { defaultJSPOptions } from '../utils/constants';
 import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions';
 import type { IDocument } from '../interfaces/response/Document';
 import type { IClientDocument } from '../interfaces/response/ClientDocument';
-import type { PublishOptions } from '../interfaces/request/PublishOptions';
-import type { AccessOptions } from '../interfaces/request/AccessOptions';
-import type { EditOptions } from '../interfaces/request/EditOptions';
+import type { PublishOptions } from '../interfaces/request/document/PublishOptions';
+import type { AccessOptions } from '../interfaces/request/document/AccessOptions';
+import type { EditOptions } from '../interfaces/request/document/EditOptions';
+import type { RemoveOptions } from '../interfaces/request/document/RemoveOptions';
 
 export class Client {
 	private http: HTTP;
@@ -41,6 +42,14 @@ export class Client {
 	public async edit(key: string, options: EditOptions) {
 		return this.http.patch<IClientDocument>(this.endpoint + '/documents/' + key, {
 			body: options.newBody,
+			headers: {
+				secret: options?.secret
+			}
+		});
+	}
+
+	public async remove(key: string, options: RemoveOptions) {
+		return this.http.delete<{ deleted: boolean }>(this.endpoint + '/documents/' + key, {
 			headers: {
 				secret: options?.secret
 			}

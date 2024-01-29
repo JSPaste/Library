@@ -2,8 +2,8 @@ import { Client } from './classes/Client';
 import { Document } from './classes/Document';
 import { ClientDocument } from './classes/ClientDocument';
 import type { JSPClientOptions } from './interfaces/request/JSPClientOptions';
-import type { PublishOptions } from './interfaces/request/PublishOptions';
-import type { EditOptions } from './interfaces/request/EditOptions';
+import type { PublishOptions } from './interfaces/request/document/PublishOptions';
+import type { EditOptions } from './interfaces/request/document/EditOptions';
 
 export class JSP {
 	private readonly client: Client;
