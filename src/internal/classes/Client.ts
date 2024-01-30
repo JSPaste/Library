@@ -1,5 +1,5 @@
 import { HTTP } from './HTTP';
-import { defaultJSPOptions } from '../utils/constants';
+import { APIVersions, defaultJSPOptions } from '../utils/constants';
 import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions';
 import type { PublishOptions } from '../interfaces/request/document/PublishOptions';
 import type { AccessOptions } from '../interfaces/request/document/AccessOptions';
@@ -41,10 +41,16 @@ export class Client {
 	}
 
 	public async exists(key: string) {
+		if (this.options.version < APIVersions.v2)
+			throw new Error('"Exists" can only be used with API version 2 or higher.');
+
 		return this.http.get<boolean>(this.endpoint + '/documents/' + key + '/exists');
 	}
 
 	public async edit(key: string, options: EditOptions) {
+		if (this.options.version < APIVersions.v2)
+			throw new Error('"Edit" can only be used with API version 2 or higher.');
+
 		return this.http.patch<{ edited: boolean }>(this.endpoint + '/documents/' + key, {
 			body: options.newBody,
 			headers: {
