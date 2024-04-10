@@ -11,10 +11,7 @@ export class Document implements IDocument {
 	public expirationTimestamp?: number;
 	public secret?: string;
 
-	public constructor(
-		client: Client,
-		{ key, data, url, password, lifetime, expirationTimestamp, secret }: IDocument
-	) {
+	public constructor(client: Client, { key, data, url, password, lifetime, expirationTimestamp, secret }: IDocument) {
 		this.client = client;
 		this.key = key;
 		this.data = data;
@@ -25,22 +22,13 @@ export class Document implements IDocument {
 		this.secret = secret;
 	}
 
-	protected refresh({
-		key,
-		data,
-		url,
-		password,
-		lifetime,
-		expirationTimestamp,
-		secret
-	}: Partial<IDocument>) {
+	protected refresh({ key, data, url, password, lifetime, expirationTimestamp, secret }: Partial<IDocument>) {
 		if (key) this.key = key;
 		if (data) this.data = data;
 		if (url) this.url = url;
 		if (password) this.password = password;
 		if (lifetime || lifetime === 0) this.lifetime = lifetime;
-		if (expirationTimestamp || expirationTimestamp === 0)
-			this.expirationTimestamp = expirationTimestamp;
+		if (expirationTimestamp || expirationTimestamp === 0) this.expirationTimestamp = expirationTimestamp;
 		if (secret) this.secret = secret;
 
 		return this;

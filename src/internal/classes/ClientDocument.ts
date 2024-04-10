@@ -1,6 +1,6 @@
-import { Document } from './Document';
-import type { Client } from './Client';
 import type { IClientDocument } from '../interfaces/response/IClientDocument';
+import type { Client } from './Client';
+import { Document } from './Document';
 
 export class ClientDocument extends Document implements IClientDocument {
 	public override secret: string;

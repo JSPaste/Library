@@ -1,6 +1,6 @@
 import * as pkg from '../../../package.json';
-import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions.ts';
 import type { HTTPOptions } from '../interfaces/request/HTTPOptions.ts';
+import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions.ts';
 
 export enum APIVersions {
 	v1 = 1,

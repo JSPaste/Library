@@ -73,8 +73,7 @@ export class HTTP {
 	}
 
 	private async parseResponse<TResponse>(response: Response): Promise<TResponse> {
-		if (response.headers.get('Content-Type')?.startsWith('application/json'))
-			return response.json() as TResponse;
+		if (response.headers.get('Content-Type')?.startsWith('application/json')) return response.json() as TResponse;
 
 		throw new Error('Unknown response type');
 	}

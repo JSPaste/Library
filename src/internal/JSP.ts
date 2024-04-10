@@ -1,9 +1,9 @@
 import { Client } from './classes/Client';
-import { Document } from './classes/Document';
 import { ClientDocument } from './classes/ClientDocument';
+import { Document } from './classes/Document';
 import type { JSPClientOptions } from './interfaces/request/JSPClientOptions';
-import type { PublishOptions } from './interfaces/request/document/PublishOptions';
 import type { EditOptions } from './interfaces/request/document/EditOptions';
+import type { PublishOptions } from './interfaces/request/document/PublishOptions';
 import type { RemoveOptions } from './interfaces/request/document/RemoveOptions';
 
 export class JSP {
@@ -18,9 +18,7 @@ export class JSP {
 	}
 
 	public async publish(data: any, options?: PublishOptions) {
-		return this.client
-			.publish(data, options)
-			.then((doc) => new ClientDocument(this.client, { ...doc, data }));
+		return this.client.publish(data, options).then((doc) => new ClientDocument(this.client, { ...doc, data }));
 	}
 
 	public async exists(key: string) {
