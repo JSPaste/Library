@@ -1,5 +1,4 @@
-import type { HTTPOptions } from '../interfaces/request/HTTPOptions.ts';
-import type { RequestOptions } from '../interfaces/request/RequestOptions.ts';
+import type { HTTPOptions, RequestOptions } from '../types/Client.ts';
 
 type OverrideRequestOptions = Omit<RequestOptions, 'endpoint' | 'method'>;
 

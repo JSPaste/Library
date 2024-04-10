@@ -1,4 +1,4 @@
-export interface IDocument {
+type IDocument = {
 	key: string;
 	data: string;
 	url?: string;
@@ -6,4 +6,6 @@ export interface IDocument {
 	lifetime?: number;
 	expirationTimestamp?: number;
 	secret?: string;
-}
+};
+
+export type { IDocument };

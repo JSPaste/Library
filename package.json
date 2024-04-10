@@ -30,7 +30,7 @@
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun --bun biome lint .",
 		"lint:tsc": "bun --bun tsc --noEmit",
-		"test": "bun run fix && bun --bun c8 bun test"
+		"test": "bun run fix && bun test"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.6.4",

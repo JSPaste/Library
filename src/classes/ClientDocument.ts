@@ -1,4 +1,4 @@
-import type { IClientDocument } from '../interfaces/response/IClientDocument';
+import type { IClientDocument } from '../types/response/IClientDocument';
 import type { Client } from './Client';
 import { Document } from './Document';
 
@@ -16,6 +16,20 @@ export class ClientDocument extends Document implements IClientDocument {
 		this.secret = secret;
 		this.edited = edited;
 		this.removed = removed;
+	}
+
+	public async edit(data?: any) {
+		if (data) this.data = data;
+
+		return this.client
+			.edit(this.key, { secret: this.secret, newBody: data || this.data })
+			.then(({ edited }) => this.refresh({ ...this, edited }));
+	}
+
+	public async remove() {
+		return this.client
+			.remove(this.key, { secret: this.secret })
+			.then(({ removed }) => this.refresh({ ...this, removed }));
 	}
 
 	protected override refresh({
@@ -38,19 +52,5 @@ export class ClientDocument extends Document implements IClientDocument {
 		this.removed = removed;
 
 		return this;
-	}
-
-	public async edit(data?: any) {
-		if (data) this.data = data;
-
-		return this.client
-			.edit(this.key, { secret: this.secret, newBody: data || this.data })
-			.then(({ edited }) => this.refresh({ ...this, edited }));
-	}
-
-	public async remove() {
-		return this.client
-			.remove(this.key, { secret: this.secret })
-			.then(({ removed }) => this.refresh({ ...this, removed }));
 	}
 }

@@ -1,20 +1,34 @@
-import type { JSPClientOptions } from '../interfaces/request/JSPClientOptions';
-import type { AccessOptions } from '../interfaces/request/document/AccessOptions';
-import type { EditOptions } from '../interfaces/request/document/EditOptions';
-import type { PublishOptions } from '../interfaces/request/document/PublishOptions';
-import type { RemoveOptions } from '../interfaces/request/document/RemoveOptions';
-import type { AccessedDocument } from '../interfaces/response/AccessedDocument';
-import type { PublishedDocument } from '../interfaces/response/PublishedDocument';
-import { APIVersions, defaultJSPOptions } from '../utils/constants';
+import * as pkg from '../../package.json';
+import { APIEndpointVersion, type HTTPOptions, type JSPClientOptions } from '../types/Client.ts';
+import type { AccessOptions } from '../types/request/document/AccessOptions';
+import type { EditOptions } from '../types/request/document/EditOptions';
+import type { PublishOptions } from '../types/request/document/PublishOptions';
+import type { RemoveOptions } from '../types/request/document/RemoveOptions';
+import type { AccessedDocument } from '../types/response/AccessedDocument';
+import type { PublishedDocument } from '../types/response/PublishedDocument';
 import { HTTP } from './HTTP';
 
 export class Client {
+	private static readonly defaultHTTPOptions: HTTPOptions = {
+		headers: {
+			'User-Agent': `JSPasteHeadless/${pkg.version} (https://github.com/jspaste/library)`
+		},
+		retries: 3,
+		timeout: 10000
+	};
+
+	private static readonly defaultJSPOptions: JSPClientOptions = {
+		api: 'https://jspaste.eu/api',
+		version: APIEndpointVersion.v2,
+		http: Client.defaultHTTPOptions
+	};
+
 	private http: HTTP;
 	private readonly options: JSPClientOptions;
 	private readonly endpoint: string;
 
 	public constructor(options: Partial<JSPClientOptions> = {}) {
-		this.options = { ...defaultJSPOptions, ...options };
+		this.options = { ...Client.defaultJSPOptions, ...options };
 		this.endpoint = `${this.options.api}/v${this.options.version}`;
 
 		this.http = new HTTP(this.options.http);
@@ -41,14 +55,14 @@ export class Client {
 	}
 
 	public async exists(key: string) {
-		if (this.options.version < APIVersions.v2)
+		if (this.options.version < APIEndpointVersion.v2)
 			throw new Error('"Exists" can only be used with API version 2 or higher.');
 
 		return this.http.get<boolean>(`${this.endpoint}/documents/${key}/exists`);
 	}
 
 	public async edit(key: string, options: EditOptions) {
-		if (this.options.version < APIVersions.v2)
+		if (this.options.version < APIEndpointVersion.v2)
 			throw new Error('"Edit" can only be used with API version 2 or higher.');
 
 		return this.http.patch<{ edited: boolean }>(`${this.endpoint}/documents/${key}`, {
