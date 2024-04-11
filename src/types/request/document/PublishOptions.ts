@@ -1,8 +1,9 @@
 type PublishOptions = {
 	key?: string;
+	keyLength?: string;
 	secret?: string;
 	password?: string;
-	lifetime?: number;
+	lifetime?: string;
 };
 
 export type { PublishOptions };

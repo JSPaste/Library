@@ -47,15 +47,17 @@ export class Client {
 
 	public async publish(data: any, options?: PublishOptions) {
 		const keyHeader = options?.key ? { key: options.key } : undefined;
+		const keyLengthHeader = options?.keyLength ? { keyLength: options.keyLength } : undefined;
 		const secretHeader = options?.secret ? { secret: options.secret } : undefined;
 		const passwordHeader = options?.password ? { password: options.password } : undefined;
-		const lifetimeHeader = options?.lifetime ? { lifetime: options.lifetime.toString() } : undefined;
+		const lifetimeHeader = options?.lifetime ? { lifetime: options.lifetime } : undefined;
 
 		return this.http.fetch<PublishedDocument>(`${this.endpoint}/documents`, {
 			method: 'POST',
 			body: data,
 			headers: {
 				...keyHeader,
+				...keyLengthHeader,
 				...secretHeader,
 				...passwordHeader,
 				...lifetimeHeader

@@ -54,7 +54,7 @@ export class Document implements IDocument {
 				key: this.key,
 				lifetime:
 					this.lifetime || this.expirationTimestamp
-						? (this.expirationTimestamp ?? 0) - Date.now()
+						? ((this.expirationTimestamp ?? 0) - Date.now()).toString()
 						: undefined,
 				password: this.password,
 				secret: this.secret
