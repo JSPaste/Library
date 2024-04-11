@@ -18,10 +18,6 @@ export class HTTP {
 
 		const response = await fetch(endpoint, requestOptions);
 
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response}`);
-		}
-
 		return this.parseResponse<TResponse>(response);
 	}
 
