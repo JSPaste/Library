@@ -18,7 +18,7 @@ type JSPClientOptions = {
 type RequestOptions = {
 	endpoint: string;
 	method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-	headers?: Record<string, string | undefined>;
+	headers?: Record<string, string>;
 	body?: string;
 };
 

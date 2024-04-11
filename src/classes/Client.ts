@@ -35,30 +35,38 @@ export class Client {
 	}
 
 	public async access(key: string, options?: AccessOptions) {
+		const passwordHeader = options?.password ? { password: options.password } : undefined;
+
 		return this.http.fetch<AccessedDocument>(`${this.endpoint}/documents/${key}`, {
 			method: 'GET',
 			headers: {
-				password: options?.password
+				...passwordHeader
 			}
 		});
 	}
 
 	public async publish(data: any, options?: PublishOptions) {
+		const keyHeader = options?.key ? { key: options.key } : undefined;
+		const secretHeader = options?.secret ? { secret: options.secret } : undefined;
+		const passwordHeader = options?.password ? { password: options.password } : undefined;
+		const lifetimeHeader = options?.lifetime ? { lifetime: options.lifetime.toString() } : undefined;
+
 		return this.http.fetch<PublishedDocument>(`${this.endpoint}/documents`, {
 			method: 'POST',
 			body: data,
 			headers: {
-				key: options?.key,
-				secret: options?.secret,
-				password: options?.password,
-				lifetime: options?.lifetime?.toString()
+				...keyHeader,
+				...secretHeader,
+				...passwordHeader,
+				...lifetimeHeader
 			}
 		});
 	}
 
 	public async exists(key: string) {
-		if (this.options.version < APIEndpointVersion.v2)
+		if (this.options.version < APIEndpointVersion.v2) {
 			throw new Error('"Exists" can only be used with API version 2 or higher.');
+		}
 
 		return this.http.fetch<boolean>(`${this.endpoint}/documents/${key}/exists`, {
 			method: 'GET'
@@ -66,23 +74,28 @@ export class Client {
 	}
 
 	public async edit(key: string, options: EditOptions) {
-		if (this.options.version < APIEndpointVersion.v2)
+		if (this.options.version < APIEndpointVersion.v2) {
 			throw new Error('"Edit" can only be used with API version 2 or higher.');
+		}
+
+		const secretHeader = options?.secret ? { secret: options.secret } : undefined;
 
 		return this.http.fetch<{ edited: boolean }>(`${this.endpoint}/documents/${key}`, {
 			method: 'PATCH',
 			body: options.newBody,
 			headers: {
-				secret: options?.secret
+				...secretHeader
 			}
 		});
 	}
 
 	public async remove(key: string, options: RemoveOptions) {
+		const secretHeader = options?.secret ? { secret: options.secret } : undefined;
+
 		return this.http.fetch<{ removed: boolean }>(`${this.endpoint}/documents/${key}`, {
 			method: 'DELETE',
 			headers: {
-				secret: options?.secret
+				...secretHeader
 			}
 		});
 	}

@@ -1,7 +1,5 @@
 import type { HTTPOptions, RequestOptions } from '../types/Client.ts';
 
-type OverrideRequestOptions = Omit<RequestOptions, 'endpoint'>;
-
 export class HTTP {
 	private readonly options: HTTPOptions;
 
@@ -9,19 +7,25 @@ export class HTTP {
 		this.options = options;
 	}
 
-	public async fetch<TResponse>(endpoint: string, options: OverrideRequestOptions) {
+	public async fetch<TResponse>(endpoint: string, options: Omit<RequestOptions, 'endpoint'>): Promise<TResponse> {
 		const requestOptions = {
 			...options,
 			headers: {
-				...this.options.headers
+				...this.options.headers,
+				...options.headers
 			}
 		};
 
 		const response = await fetch(endpoint, requestOptions);
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response}`);
+		}
+
 		return this.parseResponse<TResponse>(response);
 	}
 
-	private async parseResponse<TResponse>(response: Response) {
+	private parseResponse<TResponse>(response: Response) {
 		const contentType = response.headers.get('Content-Type');
 
 		if (contentType?.startsWith('application/json')) {
