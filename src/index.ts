@@ -1,1 +1,1 @@
-export { JSP } from './internal/JSP.ts';
+export { JSP } from './classes/JSP.ts';

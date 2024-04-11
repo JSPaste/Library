@@ -1,8 +1,7 @@
-import type { IDocument } from '../interfaces/response/IDocument';
+import type { IDocument } from '../types/response/IDocument';
 import type { Client } from './Client';
 
 export class Document implements IDocument {
-	protected readonly client: Client;
 	public key: string;
 	public data: string;
 	public url?: string;
@@ -10,11 +9,9 @@ export class Document implements IDocument {
 	public lifetime?: number;
 	public expirationTimestamp?: number;
 	public secret?: string;
+	protected readonly client: Client;
 
-	public constructor(
-		client: Client,
-		{ key, data, url, password, lifetime, expirationTimestamp, secret }: IDocument
-	) {
+	public constructor(client: Client, { key, data, url, password, lifetime, expirationTimestamp, secret }: IDocument) {
 		this.client = client;
 		this.key = key;
 		this.data = data;
@@ -23,27 +20,6 @@ export class Document implements IDocument {
 		this.lifetime = lifetime;
 		this.expirationTimestamp = expirationTimestamp;
 		this.secret = secret;
-	}
-
-	protected refresh({
-		key,
-		data,
-		url,
-		password,
-		lifetime,
-		expirationTimestamp,
-		secret
-	}: Partial<IDocument>) {
-		if (key) this.key = key;
-		if (data) this.data = data;
-		if (url) this.url = url;
-		if (password) this.password = password;
-		if (lifetime || lifetime === 0) this.lifetime = lifetime;
-		if (expirationTimestamp || expirationTimestamp === 0)
-			this.expirationTimestamp = expirationTimestamp;
-		if (secret) this.secret = secret;
-
-		return this;
 	}
 
 	public setKey(key: IDocument['key']) {
@@ -78,7 +54,7 @@ export class Document implements IDocument {
 				key: this.key,
 				lifetime:
 					this.lifetime || this.expirationTimestamp
-						? (this.expirationTimestamp ?? 0) - Date.now()
+						? ((this.expirationTimestamp ?? 0) - Date.now()).toString()
 						: undefined,
 				password: this.password,
 				secret: this.secret
@@ -88,5 +64,17 @@ export class Document implements IDocument {
 
 	public async exists() {
 		return this.client.exists(this.key).then(() => this);
+	}
+
+	protected refresh({ key, data, url, password, lifetime, expirationTimestamp, secret }: Partial<IDocument>) {
+		if (key) this.key = key;
+		if (data) this.data = data;
+		if (url) this.url = url;
+		if (password) this.password = password;
+		if (lifetime || lifetime === 0) this.lifetime = lifetime;
+		if (expirationTimestamp || expirationTimestamp === 0) this.expirationTimestamp = expirationTimestamp;
+		if (secret) this.secret = secret;
+
+		return this;
 	}
 }
