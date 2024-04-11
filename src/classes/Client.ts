@@ -35,7 +35,8 @@ export class Client {
 	}
 
 	public async access(key: string, options?: AccessOptions) {
-		return this.http.get<AccessedDocument>(`${this.endpoint}/documents/${key}`, {
+		return this.http.fetch<AccessedDocument>(`${this.endpoint}/documents/${key}`, {
+			method: 'GET',
 			headers: {
 				password: options?.password
 			}
@@ -43,7 +44,8 @@ export class Client {
 	}
 
 	public async publish(data: any, options?: PublishOptions) {
-		return this.http.post<PublishedDocument>(`${this.endpoint}/documents`, {
+		return this.http.fetch<PublishedDocument>(`${this.endpoint}/documents`, {
+			method: 'POST',
 			body: data,
 			headers: {
 				key: options?.key,
@@ -58,14 +60,17 @@ export class Client {
 		if (this.options.version < APIEndpointVersion.v2)
 			throw new Error('"Exists" can only be used with API version 2 or higher.');
 
-		return this.http.get<boolean>(`${this.endpoint}/documents/${key}/exists`);
+		return this.http.fetch<boolean>(`${this.endpoint}/documents/${key}/exists`, {
+			method: 'GET'
+		});
 	}
 
 	public async edit(key: string, options: EditOptions) {
 		if (this.options.version < APIEndpointVersion.v2)
 			throw new Error('"Edit" can only be used with API version 2 or higher.');
 
-		return this.http.patch<{ edited: boolean }>(`${this.endpoint}/documents/${key}`, {
+		return this.http.fetch<{ edited: boolean }>(`${this.endpoint}/documents/${key}`, {
+			method: 'PATCH',
 			body: options.newBody,
 			headers: {
 				secret: options?.secret
@@ -74,7 +79,8 @@ export class Client {
 	}
 
 	public async remove(key: string, options: RemoveOptions) {
-		return this.http.delete<{ removed: boolean }>(`${this.endpoint}/documents/${key}`, {
+		return this.http.fetch<{ removed: boolean }>(`${this.endpoint}/documents/${key}`, {
+			method: 'DELETE',
 			headers: {
 				secret: options?.secret
 			}
