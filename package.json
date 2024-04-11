@@ -35,12 +35,15 @@
 	"devDependencies": {
 		"@biomejs/biome": "~1.6.4",
 		"@types/bun": "~1.0.12",
-		"lefthook": "~1.6.8",
+		"lefthook": "~1.6.10",
 		"sort-package-json": "~2.10.0",
 		"typescript": "~5.4.5"
 	},
 	"engines": {
 		"node": ">=18.17.0"
 	},
-	"engineStrict": true
+	"engineStrict": true,
+	"trustedDependencies": [
+		"@biomejs/biome"
+	]
 }
