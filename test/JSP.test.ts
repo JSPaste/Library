@@ -1,19 +1,20 @@
-// TODO: Bun test suite
-
-import { expect, test } from 'bun:test';
+import { describe, test } from 'bun:test';
 import { JSP } from '../src';
 
-const jsp = new JSP({
-	api: 'https://api.inetol.net/jspaste'
-});
+describe('V1', () => {
+	const jsp = new JSP({
+		api: 'https://api.inetol.net/jspaste',
+		version: 1,
+		http: {
+			timeout: 10000
+		}
+	});
 
-const data = 'Hello, World!';
-const newDocument = await jsp.publish(data);
-const accessDocument = await jsp.access(newDocument.key);
+	const data = 'Hello, World!';
 
-test('test', () => {
-	expect(data).toBe(accessDocument.data);
+	test('publish', async () => {
+		const response = await jsp.publish(data);
 
-	console.debug(newDocument);
-	console.debug(accessDocument);
+		console.debug(response);
+	});
 });

@@ -12,7 +12,7 @@ type HTTPOptions = {
 type JSPClientOptions = {
 	api: string;
 	version: APIEndpointVersion;
-	http: HTTPOptions;
+	http: Partial<HTTPOptions>;
 };
 
 type RequestOptions = {

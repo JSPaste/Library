@@ -31,7 +31,7 @@ export class Client {
 		this.options = { ...Client.defaultJSPOptions, ...options };
 		this.endpoint = `${this.options.api}/v${this.options.version}`;
 
-		this.http = new HTTP(this.options.http);
+		this.http = new HTTP({ ...Client.defaultHTTPOptions, ...this.options.http });
 	}
 
 	public async access(key: string, options?: AccessOptions) {
