@@ -17,7 +17,6 @@ describe('V1', () => {
 	test('publish', async () => {
 		const response = await jsp.publish(data);
 
-		console.log(response);
 		console.debug(response);
 	});
 });
@@ -36,7 +35,6 @@ describe('V2', () => {
 	test('publish', async () => {
 		const response = await jsp.publish(data);
 
-		console.log(response);
 		console.debug(response);
 	});
 });
