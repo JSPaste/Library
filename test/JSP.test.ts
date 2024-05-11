@@ -8,7 +8,7 @@ describe('V1', () => {
 		api: localEndpoint,
 		version: 1,
 		http: {
-			timeout: 10000
+			timeout: 5000
 		}
 	});
 
@@ -25,9 +25,9 @@ describe('V1', () => {
 describe('V2', () => {
 	const jsp = new JSP({
 		api: localEndpoint,
-		version: 1,
+		version: 2,
 		http: {
-			timeout: 10000
+			timeout: 5000
 		}
 	});
 
