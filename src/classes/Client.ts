@@ -123,13 +123,18 @@ export class Client {
 			? { secret: options.secret }
 			: undefined;
 
+		const passwordHeader = options?.password
+			? { password: options.password }
+			: undefined;
+
 		return this.http.fetch<{ edited: boolean }>(
 			`${this.endpoint}/documents/${key}`,
 			{
 				method: 'PATCH',
 				body: options.newBody,
 				headers: {
-					...secretHeader
+					...secretHeader,
+					...passwordHeader
 				}
 			}
 		);
