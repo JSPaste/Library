@@ -1,6 +1,6 @@
 type EditOptions = {
 	newBody: string;
-	password: string;
+	password?: string;
 	secret: string;
 };
 

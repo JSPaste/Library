@@ -9,9 +9,25 @@ export class ClientDocument extends Document implements IClientDocument {
 
 	public constructor(
 		client: Client,
-		{ key, secret, data, url, password, expirationTimestamp, edited, removed }: IClientDocument
+		{
+			key,
+			secret,
+			data,
+			url,
+			password,
+			expirationTimestamp,
+			edited,
+			removed
+		}: IClientDocument
 	) {
-		super(client, { key, data, url, password, expirationTimestamp, secret });
+		super(client, {
+			key,
+			data,
+			url,
+			password,
+			expirationTimestamp,
+			secret
+		});
 
 		this.secret = secret;
 		this.edited = edited;
@@ -22,7 +38,11 @@ export class ClientDocument extends Document implements IClientDocument {
 		if (data) this.data = data;
 
 		return this.client
-			.edit(this.key, { secret: this.secret, newBody: data || this.data })
+			.edit(this.key, {
+				secret: this.secret,
+				password: this.password,
+				newBody: data || this.data
+			})
 			.then(({ edited }) => this.refresh({ ...this, edited }));
 	}
 
