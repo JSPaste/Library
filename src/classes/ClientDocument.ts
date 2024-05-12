@@ -9,16 +9,7 @@ export class ClientDocument extends Document implements IClientDocument {
 
 	public constructor(
 		client: Client,
-		{
-			key,
-			secret,
-			data,
-			url,
-			password,
-			expirationTimestamp,
-			edited,
-			removed
-		}: IClientDocument
+		{ key, secret, data, url, password, expirationTimestamp, edited, removed }: IClientDocument
 	) {
 		super(client, {
 			key,

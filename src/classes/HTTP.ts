@@ -7,10 +7,7 @@ export class HTTP {
 		this.options = options;
 	}
 
-	public async fetch<TResponse>(
-		endpoint: string,
-		options: Omit<RequestOptions, 'endpoint'>
-	): Promise<TResponse> {
+	public async fetch<TResponse>(endpoint: string, options: Omit<RequestOptions, 'endpoint'>): Promise<TResponse> {
 		const requestOptions = {
 			...options,
 			headers: {
