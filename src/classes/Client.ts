@@ -1,4 +1,4 @@
-import * as pkg from '../../package.json';
+import { version as libraryVersion } from '../../package.json';
 import { APIEndpointVersion, type HTTPOptions, type JSPClientOptions } from '../types/Client.ts';
 import type { AccessOptions } from '../types/request/document/AccessOptions';
 import type { EditOptions } from '../types/request/document/EditOptions';
@@ -11,7 +11,7 @@ import { HTTP } from './HTTP';
 export class Client {
 	private static readonly defaultHTTPOptions: HTTPOptions = {
 		headers: {
-			'User-Agent': `JSPasteHeadless/${pkg.version} (https://github.com/jspaste/library)`
+			'User-Agent': `JSPasteHeadless/${libraryVersion} (https://github.com/jspaste/library)`
 		},
 		retries: 3,
 		timeout: 10000
@@ -29,9 +29,15 @@ export class Client {
 
 	public constructor(options: Partial<JSPClientOptions> = {}) {
 		this.options = { ...Client.defaultJSPOptions, ...options };
-		this.endpoint = `${this.options.api}/v${this.options.version}`;
 
-		this.http = new HTTP({ ...Client.defaultHTTPOptions, ...this.options.http });
+		const endpoint = this.options.api.endsWith('/') ? this.options.api.slice(0, -1) : this.options.api;
+
+		this.endpoint = `${endpoint}/v${this.options.version}`;
+
+		this.http = new HTTP({
+			...Client.defaultHTTPOptions,
+			...this.options.http
+		});
 	}
 
 	public async access(key: string, options?: AccessOptions) {
@@ -47,9 +53,13 @@ export class Client {
 
 	public async publish(data: any, options?: PublishOptions) {
 		const keyHeader = options?.key ? { key: options.key } : undefined;
+
 		const keyLengthHeader = options?.keyLength ? { keyLength: options.keyLength } : undefined;
+
 		const secretHeader = options?.secret ? { secret: options.secret } : undefined;
+
 		const passwordHeader = options?.password ? { password: options.password } : undefined;
+
 		const lifetimeHeader = options?.lifetime ? { lifetime: options.lifetime } : undefined;
 
 		return this.http.fetch<PublishedDocument>(`${this.endpoint}/documents`, {
@@ -82,11 +92,14 @@ export class Client {
 
 		const secretHeader = options?.secret ? { secret: options.secret } : undefined;
 
+		const passwordHeader = options?.password ? { password: options.password } : undefined;
+
 		return this.http.fetch<{ edited: boolean }>(`${this.endpoint}/documents/${key}`, {
 			method: 'PATCH',
 			body: options.newBody,
 			headers: {
-				...secretHeader
+				...secretHeader,
+				...passwordHeader
 			}
 		});
 	}
