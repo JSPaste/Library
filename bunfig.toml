@@ -1,5 +1,9 @@
 telemetry = false
 
+[test]
+coverage = true
+coverageReporter = "lcov"
+
 [install]
 auto = "disable"
 
