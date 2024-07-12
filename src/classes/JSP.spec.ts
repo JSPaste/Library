@@ -1,11 +1,11 @@
 import { describe, test } from 'bun:test';
-import { JSP } from '../src';
+import { JSP } from './JSP.ts';
 
-const localEndpoint = 'http://[::1]:4000/api';
+const endpoint = 'https://paste.inetol.net/api';
 
 describe('V1', () => {
 	const jsp = new JSP({
-		api: localEndpoint,
+		api: endpoint,
 		version: 1,
 		http: {
 			timeout: 5000
@@ -23,7 +23,7 @@ describe('V1', () => {
 
 describe('V2', () => {
 	const jsp = new JSP({
-		api: localEndpoint,
+		api: endpoint,
 		version: 2,
 		http: {
 			timeout: 5000
