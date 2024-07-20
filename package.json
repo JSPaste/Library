@@ -9,23 +9,12 @@
 	},
 	"license": "EUPL-1.2",
 	"type": "module",
-	"exports": {
-		".": {
-			"types": {
-				"default": "./dist/index.d.ts"
-			},
-			"import": "./dist/library.js"
-		}
-	},
-	"module": "./dist/library.js",
-	"types": "./dist/index.d.ts",
-	"files": [
-		"./dist/"
-	],
+	"main": "library.js",
+	"types": "dist/library.d.ts",
 	"scripts": {
 		"build": "bun run build:library && bun run build:dts",
 		"build:dts": "",
-		"build:library": "bun build --target=browser --minify --outfile=./dist/library.js ./src/index.ts",
+		"build:library": "bun build --target=browser --minify --outfile=./dist/library.js ./src/JSP.ts",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --write",
 		"fix:package": "bun sort-package-json --quiet",
@@ -37,8 +26,9 @@
 	"devDependencies": {
 		"@biomejs/biome": "~1.8.3",
 		"@types/bun": "~1.1.6",
-		"lefthook": "~1.7.2",
+		"lefthook": "~1.7.4",
 		"sort-package-json": "~2.10.0",
+		"ts-deepmerge": "~7.0.1",
 		"typescript": "~5.5.3"
 	},
 	"engines": {
