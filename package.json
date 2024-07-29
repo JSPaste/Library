@@ -11,21 +11,26 @@
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
 	"scripts": {
-		"build": "bun run build:library && bun run build:dts",
-		"build:dts": "",
-		"build:library": "bun build --target=browser --minify --outfile=./dist/library.js ./src/JSP.ts",
+		"build": "bun run build:library && bun run build:library:minified",
+		"build:library": "bun bunchee --runtime=browser --target=es2021",
+		"build:library:minified": "bun bunchee --runtime=browser --target=es2021 --minify --no-clean --no-dts --output=dist/index.min.js",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --write",
 		"fix:package": "bun sort-package-json --quiet",
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun biome lint",
 		"lint:tsc": "bun tsc --noEmit",
-		"test": "bun run fix && bun test"
+		"prepack": "bun run build",
+		"test": "bun run lint && bun test"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.8.3",
 		"@types/bun": "~1.1.6",
+		"bunchee": "~5.3.0",
 		"lefthook": "~1.7.11",
 		"sort-package-json": "~2.10.0",
 		"ts-deepmerge": "~7.0.1",
