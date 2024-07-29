@@ -5,8 +5,8 @@ type AccessOptionsV2 = {
 type AccessResponseV2 = {
 	key: string;
 	data: string;
-	url?: string;
-	expirationTimestamp?: number;
+	url: string;
+	expirationTimestamp: number;
 };
 
 export type { AccessOptionsV2, AccessResponseV2 };
