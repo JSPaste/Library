@@ -1,4 +1,4 @@
-export type PublishOptionsV2 = {
+type PublishOptionsV2 = {
 	key?: string;
 	keyLength?: string;
 	secret?: string;
@@ -6,9 +6,11 @@ export type PublishOptionsV2 = {
 	lifetime?: string;
 };
 
-export type PublishResponseV2 = {
+type PublishResponseV2 = {
 	key: string;
 	secret: string;
 	url?: string;
 	expirationTimestamp?: number;
 };
+
+export type { PublishOptionsV2, PublishResponseV2 };

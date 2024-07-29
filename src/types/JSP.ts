@@ -1,16 +1,19 @@
-export enum APIEndpointVersion {
+enum APIEndpointVersion {
 	v2 = 2,
 	v3 = 3
 }
 
-export type RequestOptions = {
+type RequestOptions = {
 	headers: Record<string, string>;
 	retries: number;
 	timeout: number;
 };
 
-export type ClientOptions = {
+type ClientOptions = {
 	api: string;
 	version: APIEndpointVersion;
 	request: Partial<RequestOptions>;
 };
+
+export { APIEndpointVersion };
+export type { RequestOptions, ClientOptions };

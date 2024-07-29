@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@jspaste/library",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"homepage": "https://jspaste.eu",
 	"repository": {
 		"type": "git",
@@ -9,8 +9,8 @@
 	},
 	"license": "EUPL-1.2",
 	"type": "module",
-	"main": "library.js",
-	"types": "dist/library.d.ts",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "bun run build:library && bun run build:dts",
 		"build:dts": "",
@@ -26,10 +26,10 @@
 	"devDependencies": {
 		"@biomejs/biome": "~1.8.3",
 		"@types/bun": "~1.1.6",
-		"lefthook": "~1.7.4",
+		"lefthook": "~1.7.11",
 		"sort-package-json": "~2.10.0",
 		"ts-deepmerge": "~7.0.1",
-		"typescript": "~5.5.3"
+		"typescript": "~5.5.4"
 	},
 	"engines": {
 		"node": ">=18.17.0"
