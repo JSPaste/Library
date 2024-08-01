@@ -27,7 +27,8 @@ export class JSP extends Request {
 	};
 
 	public constructor(clientOptions: Omit<ClientOptions, 'version'>) {
-		const options = merge(JSP.defaultOptions, clientOptions) as ClientOptions;
+		const options = clientOptions as ClientOptions;
+
 		const rootEndpoint: string = options.api.replace(/\/+$/, '').concat(`/v${options.version}`);
 
 		super(options, rootEndpoint);
