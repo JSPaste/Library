@@ -2,6 +2,7 @@ import { merge } from 'ts-deepmerge';
 import { version as libraryVersion } from '../package.json';
 import { Request } from './Request.ts';
 import { access } from './endpoints/v2/access.ts';
+import { access_raw } from './endpoints/v2/access_raw.ts';
 import { edit } from './endpoints/v2/edit.ts';
 import { publish } from './endpoints/v2/publish.ts';
 import { remove } from './endpoints/v2/remove.ts';
@@ -32,6 +33,9 @@ export class JSP extends Request {
 		super(options, rootEndpoint);
 	}
 
+	public async access_raw(key: string, options?: AccessOptionsV2) {
+		return access_raw(this.fetch.bind(this), key, options);
+	}
 	public async access(key: string, options?: AccessOptionsV2) {
 		return access(this.fetch.bind(this), key, options);
 	}
