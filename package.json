@@ -33,7 +33,6 @@
 		"bunchee": "~5.3.1",
 		"lefthook": "~1.7.11",
 		"sort-package-json": "~2.10.0",
-		"ts-deepmerge": "~7.0.1",
 		"typescript": "~5.5.4"
 	},
 	"engines": {
