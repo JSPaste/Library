@@ -16,7 +16,7 @@ export class JSP extends Request {
 			'User-Agent': `JSPasteHeadless/${libraryVersion} (https://github.com/jspaste/library)`
 		},
 		retries: 3,
-		timeout: 10000
+		timeout: 10 * 1000
 	};
 
 	private static readonly defaultOptions: ClientOptions = {
