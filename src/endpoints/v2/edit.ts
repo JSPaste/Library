@@ -1,22 +1,19 @@
-import type { BodyInit } from 'undici-types/fetch.d.ts';
-import type { Request } from '../../Request.ts';
+import type { HTTP } from '../../HTTP.ts';
 import type { EditOptionsV2, EditResponseV2 } from '../../types/endpoints/edit.ts';
 
 export const edit = async (
-	requestFetch: typeof Request.prototype.fetch,
-	data: BodyInit,
+	requestFetch: typeof HTTP.prototype.fetch,
+	data: string,
 	name: string,
 	secret: string,
 	options?: EditOptionsV2
 ) => {
-	const headers = new Headers();
-
-	headers.append('secret', secret);
-	options?.password && headers.append('password', options.password);
-
 	return requestFetch<EditResponseV2>(`/documents/${name}`, {
 		method: 'PATCH',
 		body: data,
-		headers: headers
+		headers: {
+			secret: secret,
+			...(options?.password && { password: options.password })
+		}
 	});
 };

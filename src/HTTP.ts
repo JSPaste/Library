@@ -1,6 +1,7 @@
+import { merge } from 'ts-deepmerge';
 import type { ClientOptions } from './types/JSP.ts';
 
-export class Request {
+export class HTTP {
 	protected readonly options: ClientOptions;
 	protected readonly rootEndpoint: string;
 
@@ -10,7 +11,9 @@ export class Request {
 	}
 
 	public async fetch<TResponse>(endpoint: string, options: RequestInit): Promise<TResponse> {
-		const response = await fetch(this.rootEndpoint + endpoint, options);
+		const requestOptions = merge(this.options.request, options) as RequestInit;
+
+		const response = await fetch(this.rootEndpoint + endpoint, requestOptions);
 
 		return this.parseResponse<TResponse>(response);
 	}
