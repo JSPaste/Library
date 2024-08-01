@@ -42,7 +42,9 @@ describe('V2', () => {
 		});
 
 		test('key', async () => {
-			const response = await jsp.publish(commonData.hello, { key: commonPrivate });
+			const response = await jsp.publish(commonData.hello, {
+				key: commonPrivate
+			});
 
 			expect(response.key).toBeDefined();
 			expect(response.key).toBe(commonPrivate);
@@ -60,15 +62,22 @@ describe('V2', () => {
 		});
 
 		test('password/secret', async () => {
-			const response = await jsp.publish(commonData.hello, { password: commonPrivate, secret: commonPrivate });
+			const response = await jsp.publish(commonData.hello, {
+				password: commonPrivate,
+				secret: commonPrivate
+			});
 
 			expect(response.secret).toBe(commonPrivate);
 
-			const fail = await jsp.access(response.key, { password: commonPrivateInvalid });
+			const fail = await jsp.access(response.key, {
+				password: commonPrivateInvalid
+			});
 
 			expect(fail.data).toBeUndefined();
 
-			const result = await jsp.access(response.key, { password: commonPrivate });
+			const result = await jsp.access(response.key, {
+				password: commonPrivate
+			});
 
 			expect(result.data).toBeDefined();
 			expect(result.data).toBe(commonData.hello);

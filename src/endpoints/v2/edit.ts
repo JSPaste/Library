@@ -3,7 +3,7 @@ import type { EditOptionsV2, EditResponseV2 } from '../../types/endpoints/edit.t
 
 export const edit = async (
 	requestFetch: typeof Request.prototype.fetch,
-	data: any,
+	data: unknown,
 	name: string,
 	secret: string,
 	options?: EditOptionsV2

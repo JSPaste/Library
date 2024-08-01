@@ -1,7 +1,11 @@
 import type { Request } from '../../Request.ts';
 import type { PublishOptionsV2, PublishResponseV2 } from '../../types/endpoints/publish.ts';
 
-export const publish = async (requestFetch: typeof Request.prototype.fetch, data: any, options?: PublishOptionsV2) => {
+export const publish = async (
+	requestFetch: typeof Request.prototype.fetch,
+	data: unknown,
+	options?: PublishOptionsV2
+) => {
 	const headers = new Headers();
 
 	options?.password && headers.append('password', options.password);

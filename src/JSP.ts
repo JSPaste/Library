@@ -36,11 +36,11 @@ export class JSP extends Request {
 		return access(this.fetch.bind(this), key, options);
 	}
 
-	public async publish(data: any, options?: PublishOptionsV2) {
+	public async publish(data: unknown, options?: PublishOptionsV2) {
 		return publish(this.fetch.bind(this), data, options);
 	}
 
-	public async edit(data: any, name: string, secret: string, options?: EditOptionsV2) {
+	public async edit(data: string | Buffer, name: string, secret: string, options?: EditOptionsV2) {
 		return edit(this.fetch.bind(this), data, name, secret, options);
 	}
 
