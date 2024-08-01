@@ -1,4 +1,5 @@
 import { merge } from 'ts-deepmerge';
+import type { BodyInit } from 'undici-types/fetch.d.ts';
 import { version as libraryVersion } from '../package.json';
 import { Request } from './Request.ts';
 import { access } from './endpoints/v2/access.ts';
@@ -40,11 +41,11 @@ export class JSP extends Request {
 		return access(this.fetch.bind(this), key, options);
 	}
 
-	public async publish(data: unknown, options?: PublishOptionsV2) {
+	public async publish(data: BodyInit, options?: PublishOptionsV2) {
 		return publish(this.fetch.bind(this), data, options);
 	}
 
-	public async edit(data: string | Buffer, name: string, secret: string, options?: EditOptionsV2) {
+	public async edit(data: BodyInit, name: string, secret: string, options?: EditOptionsV2) {
 		return edit(this.fetch.bind(this), data, name, secret, options);
 	}
 

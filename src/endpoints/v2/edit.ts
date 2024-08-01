@@ -1,9 +1,10 @@
+import type { BodyInit } from 'undici-types/fetch.d.ts';
 import type { Request } from '../../Request.ts';
 import type { EditOptionsV2, EditResponseV2 } from '../../types/endpoints/edit.ts';
 
 export const edit = async (
 	requestFetch: typeof Request.prototype.fetch,
-	data: unknown,
+	data: BodyInit,
 	name: string,
 	secret: string,
 	options?: EditOptionsV2

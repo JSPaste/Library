@@ -1,9 +1,10 @@
+import type { BodyInit } from 'undici-types/fetch.d.ts';
 import type { Request } from '../../Request.ts';
 import type { PublishOptionsV2, PublishResponseV2 } from '../../types/endpoints/publish.ts';
 
 export const publish = async (
 	requestFetch: typeof Request.prototype.fetch,
-	data: unknown,
+	data: BodyInit,
 	options?: PublishOptionsV2
 ) => {
 	const headers = new Headers();
