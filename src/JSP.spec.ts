@@ -7,7 +7,7 @@ describe('V2', () => {
 	const jsp = new JSP({
 		api: endpoint,
 		request: {
-			timeout: 5000
+			timeout: 5 * 1000
 		}
 	});
 
@@ -53,7 +53,9 @@ describe('V2', () => {
 		});
 
 		test('keyLength', async () => {
-			const response = await jsp.publish(commonData.hello, { keyLength: 20 });
+			const response = await jsp.publish(commonData.hello, {
+				keyLength: 20
+			});
 
 			expect(response.key).toBeDefined();
 			expect(response.key).toHaveLength(20);
