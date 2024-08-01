@@ -1,4 +1,3 @@
-import { merge } from 'ts-deepmerge';
 import type { BodyInit } from 'undici-types/fetch.d.ts';
 import { version as libraryVersion } from '../package.json';
 import { Request } from './Request.ts';
