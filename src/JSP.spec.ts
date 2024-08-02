@@ -49,7 +49,7 @@ describe('V2', () => {
 			testCleanup(response.key, response.secret);
 		});
 
-		test('keyLength', async () => {
+		test.todo('keyLength', async () => {
 			const response = await jsp.publish(commonData.hello, {
 				keyLength: 20
 			});

@@ -7,7 +7,7 @@ export const publish = async (requestFetch: typeof HTTP.prototype.fetch, data: s
 		body: data,
 		headers: {
 			...(options?.password && { password: options.password }),
-			...(options?.keyLength && { keyLength: options.keyLength.toString() }),
+			...(options?.keyLength && { keylength: options.keyLength.toString() }),
 			...(options?.key && { key: options.key }),
 			...(options?.secret && { secret: options.secret })
 		}
