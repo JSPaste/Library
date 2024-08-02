@@ -11,7 +11,7 @@ export class HTTP {
 	}
 
 	public async fetch<TResponse>(endpoint: string, options: RequestInit): Promise<TResponse> {
-		const requestOptions = merge(this.options.request, options) as RequestInit;
+		const requestOptions = merge(options, this.options.request) as RequestInit;
 
 		const response = await fetch(this.rootEndpoint + endpoint, requestOptions);
 
