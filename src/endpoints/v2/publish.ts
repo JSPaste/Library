@@ -1,8 +1,8 @@
 import type { HTTP } from '../../HTTP.ts';
 import type { PublishOptionsV2, PublishResponseV2 } from '../../types/endpoints/publish.ts';
 
-export const publish = async (requestFetch: typeof HTTP.prototype.fetch, data: string, options?: PublishOptionsV2) => {
-	return requestFetch<PublishResponseV2>('/documents', {
+export const publish = async (http: HTTP, data: string, options?: PublishOptionsV2) => {
+	return http.fetch<PublishResponseV2>('/v2/documents', {
 		method: 'POST',
 		body: data,
 		headers: {
