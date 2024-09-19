@@ -1,5 +1,6 @@
 name: "CI -> Security"
 on:
+  branch_protection_rule:
   schedule:
     - cron: "33 3 * * 1"
 
@@ -40,6 +41,8 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          persist-credentials: false
 
       - name: "Setup CodeQL"
         uses: github/codeql-action/init@8214744c546c1e5c8f03dde8fab3a7353211988d # v3.26.7

@@ -38,13 +38,16 @@ jobs:
           persist-credentials: false
 
       - name: "Setup Bun"
-        uses: oven-sh/setup-bun@4bc047ad259df6fc24a6c9b0f9a0cb08cf17fbe5 # v2
+        uses: oven-sh/setup-bun@4bc047ad259df6fc24a6c9b0f9a0cb08cf17fbe5 # v2.0.1
 
       - name: "Setup dependencies"
         run: bun install --frozen-lockfile
 
-      - name: "Run lint"
-        run: bun run lint
-
       - name: "Run test"
         run: bun run test
+
+      - name: "Upload coverage"
+        uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699 # v1.3.0
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/lcov.*

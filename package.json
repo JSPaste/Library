@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@jspaste/library",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"homepage": "https://jspaste.eu",
 	"repository": {
 		"type": "git",
@@ -9,41 +9,39 @@
 	},
 	"license": "EUPL-1.2",
 	"type": "module",
-	"exports": {
-		".": {
-			"types": {
-				"default": "./dist/index.d.ts"
-			},
-			"import": "./dist/library.js"
-		}
-	},
-	"module": "./dist/library.js",
+	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"files": [
-		"./dist/"
+		"./dist"
 	],
 	"scripts": {
-		"build": "bun next build",
+		"build": "bun run build:library && bun run build:library:minified",
+		"build:library": "bun bunchee --runtime=browser --target=es2021",
+		"build:library:minified": "bun bunchee --runtime=browser --target=es2021 --minify --no-clean --no-dts --output=./dist/index.min.js",
 		"fix": "bun run fix:biome && bun run fix:package",
-		"fix:biome": "bun --bun biome check --apply .",
-		"fix:package": "bun --bun sort-package-json --quiet",
+		"fix:biome": "bun biome check --write",
+		"fix:package": "bun sort-package-json --quiet",
 		"lint": "bun run lint:biome && bun run lint:tsc",
-		"lint:biome": "bun --bun biome lint .",
-		"lint:tsc": "bun --bun tsc --noEmit",
-		"test": "bun run fix && bun test"
+		"lint:biome": "bun biome lint",
+		"lint:tsc": "bun tsc --noEmit",
+		"prepack": "bun run build",
+		"test": "bun run lint && bun test"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "~1.7.3",
-		"@types/bun": "~1.1.1",
-		"lefthook": "~1.6.10",
-		"sort-package-json": "~2.10.0",
-		"typescript": "~5.4.5"
+		"@biomejs/biome": "~1.9.1",
+		"@types/bun": "~1.1.9",
+		"bunchee": "~5.4.0",
+		"lefthook": "~1.7.15",
+		"sort-package-json": "~2.10.1",
+		"ts-deepmerge": "~7.0.1",
+		"typescript": "~5.6.2"
 	},
 	"engines": {
 		"node": ">=18.17.0"
 	},
 	"engineStrict": true,
 	"trustedDependencies": [
-		"@biomejs/biome"
+		"@biomejs/biome",
+		"lefthook"
 	]
 }
