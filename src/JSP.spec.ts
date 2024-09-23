@@ -1,12 +1,8 @@
 import { describe, expect, test } from 'bun:test';
 import { JSP } from './JSP.ts';
 
-const endpoint = 'https://paste.inetol.net/api';
-
 describe('V2', () => {
-	const jsp = new JSP({
-		api: endpoint
-	});
+	const jsp = new JSP();
 
 	const commonData = {
 		hello: 'Hello, World!',

@@ -18,14 +18,16 @@ export class JSP {
 	};
 
 	private static readonly defaultOptions: ClientOptions = {
-		api: 'https://paste.inetol.net/api',
+		api: 'https://api.inetol.net/jspaste',
 		request: JSP.defaultRequestOptions
 	};
 
 	private readonly http: HTTP;
 
-	public constructor(clientOptions: Partial<Omit<ClientOptions, 'version'>>) {
-		const options = merge(JSP.defaultOptions, clientOptions) as ClientOptions;
+	public constructor(clientOptions?: Partial<ClientOptions>) {
+		const options = clientOptions
+			? (merge(JSP.defaultOptions, clientOptions) as ClientOptions)
+			: JSP.defaultOptions;
 
 		this.http = new HTTP(options);
 	}
