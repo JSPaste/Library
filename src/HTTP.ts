@@ -16,13 +16,19 @@ export class HTTP {
 		return this.parseResponse<TResponse>(response);
 	}
 
-	private parseResponse<TResponse>(response: Response) {
+	private async parseResponse<TResponse>(response: Response) {
 		const contentType = response.headers.get('Content-Type');
 
-		if (contentType?.startsWith('application/json')) {
-			return response.json() as Promise<TResponse>;
+		if (!contentType?.startsWith('application/json')) {
+			throw new Error('Unknown response type');
 		}
 
-		throw new Error('Unknown response type');
+		if (!response.ok) {
+			const error = (await response.json()) as { code: number; type: string; message: string };
+
+			throw new Error(`${error.type}: ${error.code}: ${error.message}`);
+		}
+
+		return (await response.json()) as Promise<TResponse>;
 	}
 }

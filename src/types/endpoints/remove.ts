@@ -1,5 +1,5 @@
-type RemoveResponseV2 = {
+type RemoveResponse = {
 	removed: boolean;
 };
 
-export type { RemoveResponseV2 };
+export type { RemoveResponse };

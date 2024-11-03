@@ -28,13 +28,13 @@
 		"test": "bun run lint && bun test"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "~1.9.2",
-		"@types/bun": "~1.1.10",
-		"bunchee": "~5.4.0",
-		"lefthook": "~1.7.16",
+		"@biomejs/biome": "~1.9.4",
+		"@types/bun": "~1.1.13",
+		"bunchee": "~5.6.1",
+		"lefthook": "~1.8.2",
 		"sort-package-json": "~2.10.1",
 		"ts-deepmerge": "~7.0.1",
-		"typescript": "~5.6.2"
+		"typescript": "~5.6.3"
 	},
 	"engines": {
 		"node": ">=18.17.0"
