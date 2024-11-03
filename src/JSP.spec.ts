@@ -28,7 +28,7 @@ describe('publish', async () => {
 		const response = await jsp.publish(commonData.hello, {
 			password: commonPrivate,
 			key: commonPrivate,
-			//keyLength: 20,
+			keyLength: 20,
 			secret: commonPrivate
 		});
 
