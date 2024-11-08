@@ -1,4 +1,4 @@
-import { merge } from 'ts-deepmerge';
+import { deepmerge } from 'deepmerge-ts';
 import type { ClientOptions } from './types/JSP.ts';
 
 export class HTTP {
@@ -9,7 +9,7 @@ export class HTTP {
 	}
 
 	public async fetch<TResponse>(endpoint: string, options: RequestInit): Promise<TResponse> {
-		const requestOptions = merge(this.options.request, options) as RequestInit;
+		const requestOptions = deepmerge(this.options.request, options) as RequestInit;
 
 		const response = await fetch(this.options.api + endpoint, requestOptions);
 

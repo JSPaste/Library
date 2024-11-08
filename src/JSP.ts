@@ -1,4 +1,4 @@
-import { merge } from 'ts-deepmerge';
+import { deepmerge } from 'deepmerge-ts';
 import { version as libraryVersion } from '../package.json';
 import { HTTP } from './HTTP.ts';
 import { access } from './endpoints/v2/access.ts';
@@ -24,7 +24,7 @@ export class JSP {
 
 	public constructor(clientOptions?: Partial<ClientOptions>) {
 		const options = clientOptions
-			? (merge(JSP.defaultOptions, clientOptions) as ClientOptions)
+			? (deepmerge(JSP.defaultOptions, clientOptions) as ClientOptions)
 			: JSP.defaultOptions;
 
 		this.http = new HTTP(options);

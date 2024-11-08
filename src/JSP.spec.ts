@@ -24,7 +24,7 @@ const testCleanup = (key: string, secret: string) => {
 
 describe('publish', async () => {
 	test('should response parameters be defined and valid', async () => {
-		// Server should prefer key over keyLength
+		// Server should prefer "key" over "keyLength"
 		const response = await jsp.publish(commonData.hello, {
 			password: commonPrivate,
 			key: commonPrivate,
@@ -84,10 +84,14 @@ describe('access', async () => {
 	});
 
 	test('should fail on protected document', async () => {
-		expect(jsp.access(documentProtected.key)).rejects.toThrowError();
+		const responsePromise = jsp.access(documentProtected.key);
+
+		expect(responsePromise).rejects.toThrowError();
 	});
 
 	test('should fail on bad password protected document', async () => {
-		expect(jsp.access(documentProtected.key, { password: commonPrivateInvalid })).rejects.toThrowError();
+		const responsePromise = jsp.access(documentProtected.key, { password: commonPrivateInvalid });
+
+		expect(responsePromise).rejects.toThrowError();
 	});
 });

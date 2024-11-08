@@ -15,9 +15,8 @@
 		"./dist"
 	],
 	"scripts": {
-		"build": "bun run build:library && bun run build:library:minified",
-		"build:library": "bun bunchee --runtime=browser --target=es2021",
-		"build:library:minified": "bun bunchee --runtime=browser --target=es2021 --minify --no-clean --no-dts --output=./dist/index.min.js",
+		"build": "bun run build:library",
+		"build:library": "bun bunchee --runtime=browser --target=es2021 --minify --output=./dist/index.mjs",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --write",
 		"fix:package": "bun sort-package-json --quiet",
@@ -31,9 +30,9 @@
 		"@biomejs/biome": "~1.9.4",
 		"@types/bun": "~1.1.13",
 		"bunchee": "~5.6.1",
+		"deepmerge-ts": "~7.1.3",
 		"lefthook": "~1.8.2",
 		"sort-package-json": "~2.10.1",
-		"ts-deepmerge": "~7.0.1",
 		"typescript": "~5.6.3"
 	},
 	"engines": {
