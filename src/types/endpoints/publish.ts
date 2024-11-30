@@ -1,15 +1,14 @@
-type PublishOptionsV2 = {
+type PublishOptions = {
 	password?: string;
 	key?: string;
 	keyLength?: number;
 	secret?: string;
 };
 
-type PublishResponseV2 = {
+type PublishResponse = {
 	key: string;
 	secret: string;
 	url: string;
-	expirationTimestamp: number;
 };
 
-export type { PublishOptionsV2, PublishResponseV2 };
+export type { PublishOptions, PublishResponse };

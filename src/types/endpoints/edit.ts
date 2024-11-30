@@ -1,9 +1,9 @@
-type EditOptionsV2 = {
+type EditOptions = {
 	password?: string;
 };
 
-type EditResponseV2 = {
+type EditResponse = {
 	edited: boolean;
 };
 
-export type { EditOptionsV2, EditResponseV2 };
+export type { EditOptions, EditResponse };

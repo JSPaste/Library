@@ -1,83 +1,97 @@
-import { describe, expect, test } from 'bun:test';
+import { afterAll, describe, expect, test } from 'bun:test';
 import { JSP } from './JSP.ts';
 
-describe('V2', () => {
-	const jsp = new JSP();
+const jsp = new JSP();
 
-	const commonData = {
-		hello: 'Hello, World!',
-		bye: 'Bye, World!',
-		object: {
-			sample: 'Hello, World!'
-		},
-		binary: new Uint8Array([72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 10])
-	};
+const commonData = {
+	hello: 'Hello, World!',
+	bye: 'Bye, World!',
+	object: {
+		sample: 'Hello, World!'
+	},
+	binary: new Uint8Array([72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 10])
+};
 
-	/**
-	 * An unique key/secret/password for tests.
-	 */
-	const commonPrivate: string = Date.now().toString();
-	const commonPrivateInvalid: string = '_:_:wrongdingdong:_:_';
+/**
+ * An unique key/secret/password for tests.
+ */
+const commonPrivate: string = Date.now().toString();
+const commonPrivateInvalid: string = '_:_:wrongdingdong:_:_';
 
-	const testCleanup = (key: string, secret: string) => {
-		jsp.remove(key, secret);
-	};
+const testCleanup = (key: string, secret: string) => {
+	jsp.remove(key, secret).catch(() => console.error(`Failed to cleanup "${key}" with secret "${secret}"`));
+};
 
-	describe('publish', () => {
-		test('data only', async () => {
-			const response = await jsp.publish(commonData.hello);
-			const result = await jsp.access(response.key);
-
-			expect(result.data).toBeDefined();
-			expect(result.data).toBe(commonData.hello);
-
-			testCleanup(response.key, response.secret);
+describe('publish', async () => {
+	test('should response parameters be defined and valid', async () => {
+		// Server should prefer "key" over "keyLength"
+		const response = await jsp.publish(commonData.hello, {
+			password: commonPrivate,
+			key: commonPrivate,
+			keyLength: 20,
+			secret: commonPrivate
 		});
 
-		test('key', async () => {
-			const response = await jsp.publish(commonData.hello, {
-				key: commonPrivate
-			});
+		expect(response.key).toBeDefined();
+		expect(response.key).toBe(commonPrivate);
+		expect(response.secret).toBeDefined();
+		expect(response.secret).toBe(commonPrivate);
+		expect(response.url).toBeDefined();
 
-			expect(response.key).toBeDefined();
-			expect(response.key).toBe(commonPrivate);
+		testCleanup(response.key, response.secret);
+	});
 
-			testCleanup(response.key, response.secret);
+	test('should response "key" length be the same as "keyLength"', async () => {
+		const keyLength = 20;
+		const response = await jsp.publish(commonData.hello, {
+			keyLength
 		});
 
-		test.todo('keyLength', async () => {
-			const response = await jsp.publish(commonData.hello, {
-				keyLength: 20
-			});
+		expect(response.key).toBeDefined();
+		expect(response.key.length).toBe(keyLength);
+		expect(response.secret).toBeDefined();
+		expect(response.url).toBeDefined();
 
-			expect(response.key).toBeDefined();
-			expect(response.key).toHaveLength(20);
+		testCleanup(response.key, response.secret);
+	});
+});
 
-			testCleanup(response.key, response.secret);
-		});
+describe('access', async () => {
+	const document = await jsp.publish(commonData.hello, {
+		secret: commonPrivate
+	});
 
-		test('password/secret', async () => {
-			const response = await jsp.publish(commonData.hello, {
-				password: commonPrivate,
-				secret: commonPrivate
-			});
+	const documentProtected = await jsp.publish(commonData.hello, {
+		password: commonPrivate,
+		secret: commonPrivate
+	});
 
-			expect(response.secret).toBe(commonPrivate);
+	afterAll(() => {
+		testCleanup(document.key, commonPrivate);
+		testCleanup(documentProtected.key, commonPrivate);
+	});
 
-			const fail = await jsp.access(response.key, {
-				password: commonPrivateInvalid
-			});
+	test('should response parameters be defined and valid', async () => {
+		const response = await jsp.access(document.key);
 
-			expect(fail.data).toBeUndefined();
+		expect(response.key).toBeDefined();
+		expect(response.key).toBe(document.key);
+		expect(response.data).toBeDefined();
+		expect(response.data).toBe(commonData.hello);
+		expect(response.url).toBeDefined();
 
-			const result = await jsp.access(response.key, {
-				password: commonPrivate
-			});
+		testCleanup(response.key, commonPrivate);
+	});
 
-			expect(result.data).toBeDefined();
-			expect(result.data).toBe(commonData.hello);
+	test('should fail on protected document', async () => {
+		const responsePromise = jsp.access(documentProtected.key);
 
-			testCleanup(response.key, response.secret);
-		});
+		expect(responsePromise).rejects.toThrowError();
+	});
+
+	test('should fail on bad password protected document', async () => {
+		const responsePromise = jsp.access(documentProtected.key, { password: commonPrivateInvalid });
+
+		expect(responsePromise).rejects.toThrowError();
 	});
 });

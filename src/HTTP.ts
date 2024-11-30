@@ -1,4 +1,4 @@
-import { merge } from 'ts-deepmerge';
+import { deepmerge } from 'deepmerge-ts';
 import type { ClientOptions } from './types/JSP.ts';
 
 export class HTTP {
@@ -9,20 +9,26 @@ export class HTTP {
 	}
 
 	public async fetch<TResponse>(endpoint: string, options: RequestInit): Promise<TResponse> {
-		const requestOptions = merge(this.options.request, options) as RequestInit;
+		const requestOptions = deepmerge(this.options.request, options) as RequestInit;
 
 		const response = await fetch(this.options.api + endpoint, requestOptions);
 
 		return this.parseResponse<TResponse>(response);
 	}
 
-	private parseResponse<TResponse>(response: Response) {
+	private async parseResponse<TResponse>(response: Response) {
 		const contentType = response.headers.get('Content-Type');
 
-		if (contentType?.startsWith('application/json')) {
-			return response.json() as Promise<TResponse>;
+		if (!contentType?.startsWith('application/json')) {
+			throw new Error('Unknown response type');
 		}
 
-		throw new Error('Unknown response type');
+		if (!response.ok) {
+			const error = (await response.json()) as { code: number; type: string; message: string };
+
+			throw new Error(`${error.type}: ${error.code}: ${error.message}`);
+		}
+
+		return (await response.json()) as Promise<TResponse>;
 	}
 }

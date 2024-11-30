@@ -1,12 +1,11 @@
-type AccessOptionsV2 = {
+type AccessOptions = {
 	password?: string;
 };
 
-type AccessResponseV2 = {
+type AccessResponse = {
 	key: string;
 	data: string;
 	url: string;
-	expirationTimestamp: number;
 };
 
-export type { AccessOptionsV2, AccessResponseV2 };
+export type { AccessOptions, AccessResponse };
