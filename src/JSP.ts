@@ -18,7 +18,7 @@ export class JSP {
 	};
 
 	private static readonly defaultOptions: ClientOptions = {
-		api: 'https://api.inetol.net/jspaste',
+		api: 'https://paste.inet.cat/api',
 		request: JSP.defaultRequestOptions
 	};
 
